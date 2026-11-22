@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="az">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Milyonçu & 5-Oyun Şousu v2 — TikTok LIVE</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800;900&family=Inter:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="themes.css" />
+</head>
+<body>
+  <div class="studio-layout">
+    <!-- ==================== SOL: 9:16 TİKTOK CANLI SƏHNƏ ==================== -->
+    <div class="stage-wrapper">
+      <div class="stage-9x16" id="stage9x16">
+        <div class="bg-rays"></div>
+        <div class="bg-particles"></div>
+
+        <!-- TOP HUD BAR -->
+        <header class="top-bar">
+          <div class="top-left">
+            <div class="game-mode-pill mode-millionaire" id="gameModePill">
+              <span id="gameModeIcon">💰</span>
+              <span id="gameModeName">MİLYONÇU</span>
+            </div>
+            <div class="round-badge" id="roundBadge">TUR 1 • SUAL 1 / 8</div>
+          </div>
+
+          <div class="timer-ring-wrap" id="timerWrap">
+            <svg class="timer-svg" viewBox="0 0 60 60">
+              <circle class="timer-bg" cx="30" cy="30" r="25" />
+              <circle class="timer-fg" id="timerProgress" cx="30" cy="30" r="25" />
+            </svg>
+            <span class="timer-text" id="timerValue">25</span>
+          </div>
+
+          <div class="lifelines-mini" id="lifelinesMini">
+            <button class="life-btn" id="btnLifeline5050" title="50:50 Kömək">50:50</button>
+            <button class="life-btn" id="btnLifelineAudience" title="İzləyici Faizi">👥</button>
+            <button class="life-btn" id="btnLifelinePhone" title="İpucu / Dost Zəngi">📞</button>
+          </div>
+        </header>
+
+        <!-- NEXT GAME STRIP -->
+        <div class="next-game-strip" id="nextGameBanner">
+          <span>🔄 Növbəti tur: <strong id="nextGameLabel">🏳️ Bayrağı Tap</strong></span>
+          <span class="bank-pill" id="bankCounterPill">♾️ 10,946+ Sual</span>
+        </div>
+
+        <!-- MAIN QUESTION STAGE -->
+        <main class="question-stage" id="questionStage">
+          <!-- MODE 2: FLAG IMAGE DISPLAY -->
+          <div class="flag-display-wrap hidden" id="flagDisplayWrap">
+            <div class="flag-frame">
+              <img id="flagImg" src="" alt="Ölkə Bayrağı" crossorigin="anonymous" />
+            </div>
+            <span class="flag-sub-hint">Bayrağın sahibi olan ölkəni tap!</span>
+          </div>
+
+          <!-- MODE 4: WORD & EMOJI PUZZLE DISPLAY -->
+          <div class="puzzle-display-wrap hidden" id="puzzleDisplayWrap">
+            <div class="puzzle-prompt-card" id="puzzlePrompt">🔥🏔️🇦🇿</div>
+            <div class="puzzle-mask-row" id="puzzleMask">_ _ _ _ _ _ _ _ _ _</div>
+            <div class="puzzle-hint-text" id="puzzleHint">İpucu: 10 hərf • Çatda düzgün sözü yaz!</div>
+          </div>
+
+          <!-- MODE 5: SPEED DUEL BANNER -->
+          <div class="speed-badge-wrap hidden" id="speedBadgeWrap">
+            <div class="speed-duel-pill">🎯 VARİANTSIZ SÜRƏT DUELİ — İLK 3 YAZAN QAZANIR!</div>
+          </div>
+
+          <!-- QUESTION BOX -->
+          <section class="question-box" id="questionBox">
+            <div class="q-category-tag" id="qModeTag">💰 BİLİK SUALLARI</div>
+            <h1 class="question-text" id="questionText">Oyun yüklənir...</h1>
+          </section>
+
+          <!-- REVEALED ANSWER BANNER (For Word / Speed modes) -->
+          <div class="answer-reveal-banner hidden" id="answerRevealBanner">
+            <span class="reveal-label">✅ DÜZGÜN CAVAB:</span>
+            <strong class="reveal-word" id="answerRevealWord">—</strong>
+          </div>
+
+          <!-- HINT / LIFELINE TOAST -->
+          <div class="hint-toast hidden" id="hintToast"></div>
+
+          <!-- OPTIONS GRID (Modes: millionaire, flag, truefalse) -->
+          <section class="options-grid" id="optionsGrid">
+            <div class="option-bar" id="optA" data-choice="A">
+              <div class="opt-fill" id="fillA"></div>
+              <span class="opt-letter">A:</span>
+              <span class="opt-text" id="textA">—</span>
+              <span class="opt-stats" id="statsA">0%</span>
+            </div>
+            <div class="option-bar" id="optB" data-choice="B">
+              <div class="opt-fill" id="fillB"></div>
+              <span class="opt-letter">B:</span>
+              <span class="opt-text" id="textB">—</span>
+              <span class="opt-stats" id="statsB">0%</span>
+            </div>
+            <div class="option-bar" id="optC" data-choice="C">
+              <div class="opt-fill" id="fillC"></div>
+              <span class="opt-letter">C:</span>
+              <span class="opt-text" id="textC">—</span>
+              <span class="opt-stats" id="statsC">0%</span>
+            </div>
+            <div class="option-bar" id="optD" data-choice="D">
+              <div class="opt-fill" id="fillD"></div>
+              <span class="opt-letter">D:</span>
+              <span class="opt-text" id="textD">—</span>
+              <span class="opt-stats" id="statsD">0%</span>
+            </div>
+          </section>
+
+          <!-- TOP 3 SPEED WINNERS PODIUM (Modes: word, speed) -->
+          <section class="speed-winners-box hidden" id="speedWinnersBox">
+            <div class="speed-podium-title">⚡ İLK TAPAN 3 LİDER</div>
+            <div class="speed-slots">
+              <div class="speed-slot" id="speedSlot1">
+                <span class="slot-medal">🥇 1-ci (+300)</span>
+                <span class="slot-user" id="speedUser1">Gözlənilir...</span>
+              </div>
+              <div class="speed-slot" id="speedSlot2">
+                <span class="slot-medal">🥈 2-ci (+200)</span>
+                <span class="slot-user" id="speedUser2">Gözlənilir...</span>
+              </div>
+              <div class="speed-slot" id="speedSlot3">
+                <span class="slot-medal">🥉 3-cü (+100)</span>
+                <span class="slot-user" id="speedUser3">Gözlənilir...</span>
+              </div>
+            </div>
+          </section>
+        </main>
+
+        <!-- BOTTOM LIVE INTERACTION HUD -->
+        <footer class="bottom-hud">
+          <div class="chat-callout" id="chatCallout">
+            💬 Çatda <strong>A</strong>, <strong>B</strong>, <strong>C</strong> və ya <strong>D</strong> yaz — Xal qazan!
+          </div>
+
+          <div class="vote-ticker" id="voteTicker">
+            <span class="ticker-placeholder">🔴 Canlı çat cavabları burada görünəcək...</span>
+          </div>
+
+          <div class="leaderboard-mini" id="leaderboardMini">
+            <div class="lb-header">
+              <span>🏆 TUR LİDERLƏRİ</span>
+              <span class="live-status-pill" id="stageLiveBadge">● HAZIR</span>
+            </div>
+            <div class="lb-list" id="lbList">
+              <div class="lb-empty">İlk cavabdan sonra xallar toplanacaq</div>
+            </div>
+          </div>
+        </footer>
+
+        <!-- ROUND VICTORY & TRANSITION OVERLAY -->
+        <div class="stage-overlay hidden" id="stageOverlay">
+          <div class="overlay-card">
+            <div class="overlay-trophy">🏆</div>
+            <h2 class="overlay-title" id="overlayTitle">TUR TAMAMLANDI!</h2>
+            <p class="overlay-sub" id="overlaySub">Bu turun çempionları:</p>
+            <div class="overlay-podium" id="overlayPodium"></div>
+            <div class="overlay-next-box" id="overlayNextBox">
+              ⏳ Növbəti oyun açılır: <strong id="overlayNextGameName">🏳️ Bayrağı Tap</strong>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ==================== SAĞ: APARICI STUDİYASI PANELİ ==================== -->
+    <aside class="control-panel" id="controlPanel">
+      <div class="panel-header">
+        <div>
+          <h2>🎙️ Aparıcı Studiyası v2</h2>
+          <p class="panel-sub">5-Oyun Avto-Dövr & Alqış Səs Mühərriki</p>
+        </div>
+        <div class="header-badges">
+          <span class="conn-badge" id="connModeBadge">Server Rejimi</span>
+          <a class="btn-obs-link" href="?overlay=1" target="_blank" rel="noopener">📺 OBS Overlay</a>
+        </div>
+      </div>
+
+      <!-- 1. 5 GAME SELECTOR -->
+      <div class="ctrl-card">
+        <div class="card-title-row">
+          <h3>🎮 Aktiv Oyun & Avto-Keçid</h3>
+          <label class="toggle-label">
+            <input type="checkbox" id="autoRotateToggle" checked />
+            <span>🔄 Hər turdan bir dəyiş</span>
+          </label>
+        </div>
+        <div class="game-selector-grid" id="gameSelectorGrid">
+          <button class="game-select-btn active" data-game="millionaire" id="modeBtn-millionaire">💰 Milyonçu</button>
+          <button class="game-select-btn" data-game="flag" id="modeBtn-flag">🏳️ Bayraq</button>
+          <button class="game-select-btn" data-game="truefalse" id="modeBtn-truefalse">⚡ Doğru/Yanlış</button>
+          <button class="game-select-btn" data-game="word" id="modeBtn-word">🔤 Söz/Emoji</button>
+          <button class="game-select-btn" data-game="speed" id="modeBtn-speed">🎯 Sürət Dueli</button>
+        </div>
+      </div>
+
+      <!-- 2. GAME & SOUND CONTROLS -->
+      <div class="ctrl-card">
+        <h3>⏯️ Tur və Səs İdarəsi</h3>
+        <div class="btn-row">
+          <button class="ctrl-btn primary" id="btnStartRound">▶ Yeni Tur Başlat</button>
+          <button class="ctrl-btn warn" id="btnReveal">👁️ Cavabı Aç</button>
+          <button class="ctrl-btn" id="btnNextQ">⏭️ Növbəti Sual</button>
+        </div>
+        <div class="sound-row">
+          <button class="ctrl-btn small" id="btnMuteSound">🔊 Səs Açıqdır</button>
+          <button class="ctrl-btn small accent" id="btnTestApplause">👏 Alqış Testi</button>
+          <button class="ctrl-btn small" id="btnTestTick">🕰️ Taymer Testi</button>
+          <select id="questionTimeSelect" class="time-select" title="Sual vaxtı">
+            <option value="auto" selected>Avto Vaxt</option>
+            <option value="15">15 san</option>
+            <option value="20">20 san</option>
+            <option value="25">25 san</option>
+            <option value="30">30 san</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- 2b. THEME / DESIGN -->
+      <div class="ctrl-card">
+        <h3>🎨 Dizayn / Tema</h3>
+        <div class="game-selector-grid theme-selector-grid" id="themeSelectorGrid">
+          <button class="game-select-btn theme-btn" data-theme-choice="auto">🔄 Avto (oyuna görə)</button>
+          <button class="game-select-btn theme-btn" data-theme-choice="classic">🌌 Klassik</button>
+          <button class="game-select-btn theme-btn" data-theme-choice="gold">👑 Qızıl Şou</button>
+          <button class="game-select-btn theme-btn" data-theme-choice="azerbaijan">🇦🇿 Azərbaycan</button>
+          <button class="game-select-btn theme-btn" data-theme-choice="neon">💜 Neon</button>
+          <button class="game-select-btn theme-btn" data-theme-choice="galaxy">🪐 Qalaktika</button>
+          <button class="game-select-btn theme-btn" data-theme-choice="fire">🔥 Alov</button>
+        </div>
+        <p class="bank-summary" id="themeHint">Avto: Milyonçu=Qızıl, Bayraq=Azərbaycan, Doğru/Yanlış=Neon, Söz=Qalaktika, Sürət=Alov</p>
+      </div>
+
+      <!-- 3. TIKTOK CONNECTION -->
+      <div class="ctrl-card">
+        <h3>📡 TikTok LIVE Çat Bağlantısı</h3>
+        <div class="input-row">
+          <input type="text" id="tiktokUserInput" value="bakuremixlab" placeholder="istifadəçi adı (məs: bakuremixlab)" />
+          <button class="ctrl-btn primary" id="btnConnectTikTok">Qoşul</button>
+          <button class="ctrl-btn danger" id="btnDisconnectTikTok">Kəs</button>
+        </div>
+        <div class="status-line" id="tiktokStatusText">Status: Bağlantı hazırdır</div>
+      </div>
+
+      <!-- 4. BOT SIMULATOR & CHAT TEST -->
+      <div class="ctrl-card">
+        <h3>🤖 Canlı Test & Bot Simulyatoru</h3>
+        <div class="btn-row">
+          <button class="ctrl-btn accent" id="btnSimToggle">🤖 Bot Simulyatoru: BAĞLI</button>
+          <button class="ctrl-btn" id="btnSimBurst">⚡ +5 Bot Cavabı</button>
+        </div>
+        <div class="input-row mt-8">
+          <input type="text" id="manualTestInput" placeholder="Özün test yaz (məs: A, Doğru, Bakı...)" />
+          <button class="ctrl-btn" id="btnManualTestSend">Göndər</button>
+        </div>
+      </div>
+
+      <!-- 5. QUESTION BANK & OBS URL -->
+      <div class="ctrl-card">
+        <h3>📚 Sual Bazası & Overlay Linki</h3>
+        <p class="bank-summary" id="questionBankSummary">946 əsas + 10,000+ dinamik kombinasiya + 4 mini-oyun bazası</p>
+        <div class="btn-row">
+          <button class="ctrl-btn" id="btnOpenModal">📝 Sualları İdarə Et</button>
+          <button class="ctrl-btn" id="btnCopyObsUrl">📋 Overlay Linkini Kopyala</button>
+        </div>
+        <input type="text" id="obsOverlayUrl" class="obs-url-input" readonly value="https://mygearvibe.com/milyoncu/?overlay=1" />
+      </div>
+    </aside>
+  </div>
+
+  <!-- QUESTION MANAGER MODAL -->
+  <div class="modal-backdrop hidden" id="questionModal">
+    <div class="modal-card">
+      <div class="modal-head">
+        <h2>📚 Milyonçu Sual Bazasını İdarə Et</h2>
+        <button class="modal-close" id="btnCloseModal">✕</button>
+      </div>
+      <form id="addQuestionForm" class="add-q-form">
+        <input type="text" id="newQText" placeholder="Sual mətni..." required />
+        <div class="form-grid-4">
+          <input type="text" id="newOptA" placeholder="Variant A" required />
+          <input type="text" id="newOptB" placeholder="Variant B" required />
+          <input type="text" id="newOptC" placeholder="Variant C" required />
+          <input type="text" id="newOptD" placeholder="Variant D" required />
+        </div>
+        <div class="form-row-end">
+          <select id="newQCorrect">
+            <option value="A">Düzgün: A</option>
+            <option value="B">Düzgün: B</option>
+            <option value="C">Düzgün: C</option>
+            <option value="D">Düzgün: D</option>
+          </select>
+          <input type="text" id="newQHint" placeholder="İpucu (istəyə bağlı)..." />
+          <button type="submit" class="ctrl-btn primary">+ Əlavə Et</button>
+        </div>
+      </form>
+      <div class="modal-q-list" id="modalQList"></div>
+    </div>
+  </div>
+
+  <script src="infinite-questions.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
